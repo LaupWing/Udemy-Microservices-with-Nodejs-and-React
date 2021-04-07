@@ -15,4 +15,15 @@ axios
       const id = todo.id  
       const title = todo.title  
       const completed = todo.completed  
+
+      logTodo(id, title, completed)
    })
+
+
+const logTodo = (id: number, title: string, completed: boolean) =>{
+   console.log(`
+      Todo ID: ${id}
+      Todo Title: ${title}
+      Todo Completed: ${completed}
+   `)
+}
