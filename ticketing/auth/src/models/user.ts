@@ -1,5 +1,10 @@
 import mongoose from 'mongoose'
 
+interface UserAttributes {
+   email: string
+   password: string
+}
+
 const userSchema = new mongoose.Schema({
    email:{
       type: String,
@@ -12,5 +17,9 @@ const userSchema = new mongoose.Schema({
 })
 
 const User = mongoose.model('user', userSchema)
+
+const buildUser = (attrs: UserAttributes) =>{
+   return new User(attrs)
+}
 
 export { User }
