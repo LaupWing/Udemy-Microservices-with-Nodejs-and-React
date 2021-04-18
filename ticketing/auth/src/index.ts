@@ -12,17 +12,18 @@ import {errorHandler} from './middlewares/error-handler'
 import {NotFoundError} from './errors/not-found-error'
 
 const app = express()
-app.use(json())
 
-app.use(currentUserRouter)
-app.use(signinRouter)
-app.use(signoutRouter)
-app.use(signupRouter)
-app.all('*', ()=>{
-   throw new NotFoundError()
-})
-app.use(errorHandler)
-
+app
+   .use(json())
+   .use(currentUserRouter)
+   .use(signinRouter)
+   .use(signoutRouter)
+   .use(signupRouter)
+   .use(errorHandler)
+   .all('*', ()=>{
+      throw new NotFoundError()
+   })
+   
 const start = async () =>{
    try{
       await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {
