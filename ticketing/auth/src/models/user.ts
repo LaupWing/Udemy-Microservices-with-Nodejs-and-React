@@ -24,10 +24,10 @@ const userSchema = new mongoose.Schema({
    },
 })
 
-const User = mongoose.model<UserDoc, UserModel>('user', userSchema)
-
 userSchema.statics.build = (attrs: UserAttributes) => {
    return new User(attrs)
 }
+const User = mongoose.model<UserDoc, UserModel>('user', userSchema)
+
 
 export { User }
