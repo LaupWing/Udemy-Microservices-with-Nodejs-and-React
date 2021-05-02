@@ -16,6 +16,7 @@ beforeAll(async ()=>{
 
 beforeEach(async ()=>{
    const collections = await mongoose.connection.db.collections()
+   console.log('Before each')
 
    for(let collection of collections){
       await collection.deleteMany({})
@@ -23,6 +24,7 @@ beforeEach(async ()=>{
 })
 
 afterAll(async ()=>{
+   console.log('After all')
    await mongo.stop()
    await mongoose.connection.close()
 })
