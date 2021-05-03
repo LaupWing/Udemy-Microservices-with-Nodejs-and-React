@@ -7,7 +7,7 @@ let mongo: any
 beforeAll(async ()=>{
    mongo = new MongoMemoryServer()
    const mongoUri = await mongo.getUri()
-
+   process.env.JWT_KEY = 'testtest'
    await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -16,7 +16,6 @@ beforeAll(async ()=>{
 
 beforeEach(async ()=>{
    const collections = await mongoose.connection.db.collections()
-   console.log('Before each')
 
    for(let collection of collections){
       await collection.deleteMany({})
@@ -24,7 +23,6 @@ beforeEach(async ()=>{
 })
 
 afterAll(async ()=>{
-   console.log('After all')
    await mongo.stop()
    await mongoose.connection.close()
 })
