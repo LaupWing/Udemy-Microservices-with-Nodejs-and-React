@@ -19,7 +19,7 @@ app
    .use(json())
    .use(cookieSession({
       signed: false,
-      secure: true
+      secure: process.env.NODE_ENV !== 'test'
    }))
    .use(currentUserRouter)
    .use(signinRouter)

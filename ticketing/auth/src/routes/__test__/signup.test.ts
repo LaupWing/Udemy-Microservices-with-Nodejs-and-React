@@ -1,3 +1,4 @@
+import { response } from 'express'
 import request from 'supertest'
 import {app} from '../../app'
 
@@ -51,4 +52,14 @@ it('dissallows duplicate emails', async  ()=>{
          password: 'password'
       })
       .expect(400)
+})
+it('sets a cookie after succesfull signup', async  ()=>{
+   const res = await request(app)
+      .post('/api/users/signup')
+      .send({
+         email: 'test@test.com',
+         password: 'password'
+      })
+      .expect(201)
+   expect(res.get('Set-Cookie')).toBeDefined()
 })
