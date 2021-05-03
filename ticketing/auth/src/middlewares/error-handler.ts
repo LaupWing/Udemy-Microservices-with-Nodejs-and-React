@@ -7,8 +7,6 @@ export const errorHandler = (
    res: Response, 
    next: NextFunction
 )=>{
-   console.log('Loggin error')
-   console.log(err)
    if(err instanceof CustomError){
       return res.status(err.statusCode).send({errors:err.serializeErrors()})
    }
