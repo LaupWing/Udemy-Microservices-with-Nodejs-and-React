@@ -10,8 +10,12 @@ const AppComponent =  ({Component, pageProps})=>{
    )
 }
 
-AppComponent.getInitialProps = async ({ctx:{req}}) =>{
-   const {data} = await buildClient(req).get('/api/users/currentuser')
+AppComponent.getInitialProps = async (appCtx) =>{
+   const {data} = await buildClient(appCtx.ctx.req).get('/api/users/currentuser')
+   let pageProps
+   if(appCtx.Component.getInitialProps){
+      pageProps = await appCtx.Component.getInitialProps(appCtx.ctx)
+   }
    return data
 }
 
