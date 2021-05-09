@@ -1,6 +1,26 @@
 import Link from 'next/link'
 
 const AppHeader = ({currentUser})=>{
+   const links = [
+      !currentUser && {
+         label: 'Sign up', 
+         href: '/auth/signup'
+      },
+      !currentUser && {
+         label: 'Sign up', 
+         href: '/auth/signup'
+      },
+      currentUser && {
+         label: 'Sign up', 
+         href: '/auth/signup'
+      },
+   ]
+      .filter(x=>x)
+      .map(({label, href})=>(
+         <li key={href}>{label}</li>
+      ))
+
+
    return (
       <nav className="navbar navbar-light bg-light">
          <Link href="/">
