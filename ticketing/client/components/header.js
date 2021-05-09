@@ -17,7 +17,14 @@ const AppHeader = ({currentUser})=>{
    ]
       .filter(x=>x)
       .map(({label, href})=>(
-         <li key={href}>{label}</li>
+         <li 
+            key={href}
+            className="nav-item"
+         >
+            <Link href={href}>
+               <a className="nav-link">{label}</a>
+            </Link>
+         </li>
       ))
 
 
