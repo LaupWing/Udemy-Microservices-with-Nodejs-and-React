@@ -4,6 +4,7 @@ import 'express-async-errors'
 import cookieSession from 'cookie-session'
 
 import {createTicketRouter} from './routes/new'
+import {showTicketRouter} from './routes/show'
 
 import {
    NotFoundError, 
@@ -23,6 +24,7 @@ app
    .use(errorHandler)
    .use(currentUser)
    .use(createTicketRouter)
+   .use(showTicketRouter)
    .all('*', ()=>{
       throw new NotFoundError()
    })
