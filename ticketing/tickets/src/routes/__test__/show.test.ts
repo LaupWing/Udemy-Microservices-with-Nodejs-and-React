@@ -23,6 +23,7 @@ it('returns the ticket if the ticket is found', async ()=>{
       .get(`/api/tickets/${response.body.id}`)
       .send()
       .expect(200)
+      
    expect(ticketReponse.body.title).toEqual(title)
    expect(ticketReponse.body.price).toEqual(price)
 })
