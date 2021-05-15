@@ -1,8 +1,5 @@
 import express, {Request, Response} from 'express'
-import {requireAuth, validateRequest} from '@ticketservice/common'
-import {body} from 'express-validator'
 import {Ticket} from '../models/ticket'
-
 
 const router = express.Router()
 
