@@ -17,6 +17,7 @@ stan.on('connect', ()=>{
 
    const options = stan.subscriptionOptions()
       .setManualAckMode(true)
+      .setDeliverAllAvailable()
       
    const subscription = stan.subscribe(
       'ticket:created', 
