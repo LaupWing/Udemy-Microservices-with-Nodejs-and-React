@@ -15,9 +15,11 @@ stan.on('connect', ()=>{
       process.exit()
    })
 
-   const options = stan.subscriptionOptions()
+   const options = stan
+      .subscriptionOptions()
       .setManualAckMode(true)
       .setDeliverAllAvailable()
+      .setDurableName('accouting-service')
       
    const subscription = stan.subscribe(
       'ticket:created', 
