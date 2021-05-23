@@ -1,11 +1,12 @@
 import { OrderStatus } from '@ticketservice/common'
 import mongoose from 'mongoose'
+import { TicketDoc } from './ticket'
 
 interface OrderAttributes {
    userId: string
    status: OrderStatus
    expiresAt: Date
-   // ticket: TicketDoc
+   ticket: TicketDoc
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -15,7 +16,7 @@ interface OrderDoc extends mongoose.Document {
    userId: string
    status: OrderStatus
    expiresAt: Date
-   // ticket: TicketDoc
+   ticket: TicketDoc
 }
 
 const orderSchema = new mongoose.Schema({
@@ -37,13 +38,14 @@ const orderSchema = new mongoose.Schema({
       ref: 'Ticket'
    },
 }, {
-   toJSON:{
-      transform(doc, ret){
-         ret.id = ret._id
-         delete ret._id
+      toJSON:{
+         transform(doc, ret){
+            ret.id = ret._id
+            delete ret._id
+         }
       }
    }
-})
+)
 
 orderSchema.statics.build = (attrs: OrderAttributes) =>{
    return new Order(attrs)
