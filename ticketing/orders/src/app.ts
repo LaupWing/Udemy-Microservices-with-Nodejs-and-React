@@ -3,10 +3,10 @@ import {json} from 'body-parser'
 import 'express-async-errors'
 import cookieSession from 'cookie-session'
 
-import {createTicketRouter} from './routes/new'
-import {showTicketRouter} from './routes/show'
-import {indexTicketRouter} from './routes/index'
-import {updateTicketRouter} from './routes/update'
+import {newOrderRouter} from './routes/new'
+import {showOrderRouter} from './routes/show'
+import {indexOrderRouter} from './routes/index'
+import {deleteOrderRouter} from './routes/delete'
 
 import {
    NotFoundError, 
@@ -25,10 +25,10 @@ app
    }))
    .use(errorHandler)
    .use(currentUser)
-   .use(indexTicketRouter)
-   .use(updateTicketRouter)
-   .use(createTicketRouter)
-   .use(showTicketRouter)
+   .use(indexOrderRouter)
+   .use(showOrderRouter)
+   .use(newOrderRouter)
+   .use(deleteOrderRouter)
    .all('*', ()=>{
       throw new NotFoundError()
    })
