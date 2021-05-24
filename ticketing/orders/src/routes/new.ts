@@ -22,18 +22,9 @@ router.post('/api/orders', requireAuth, [
       if(!ticket){
          throw new NotFoundError()
       }
-
-      const existingOrder = await Order.findOne({
-         ticket,
-         status:{
-            $in: [
-               OrderStatus.Created,
-               OrderStatus.AwaitingPayment,
-               OrderStatus.Complete
-            ]
-         }
-      })
-      if(existingOrder){
+      const isReserved = await ticket.isReserved()
+      
+      if(isReserved){
          throw new BadRequestError('Ticket is already reserverd')
       }
 
