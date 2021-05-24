@@ -5,6 +5,8 @@ import mongoose from 'mongoose'
 import { Ticket } from '../models/ticket'
 import { Order } from '../models/order'
 
+const EXPIRATION_WINDOW_SECONDS = 15 * 60
+
 const router = express.Router()
 
 router.post('/api/orders', requireAuth, [
@@ -27,8 +29,18 @@ router.post('/api/orders', requireAuth, [
       if(isReserved){
          throw new BadRequestError('Ticket is already reserverd')
       }
+      const expiration = new Date()
+      expiration.setSeconds(expiration.getSeconds() +EXPIRATION_WINDOW_SECONDS)
 
-      res.send({})
+      const order = Order.build({
+         userId: req.currentUser!.id,
+         status: OrderStatus.Created,
+         expiresAt: expiration,
+         ticket
+      })
+      await order.save()
+
+      res.status(201).send(order)
    }
 )
 
