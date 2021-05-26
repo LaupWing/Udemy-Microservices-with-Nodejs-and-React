@@ -4,7 +4,7 @@ import { Order, OrderStatus } from './order'
 interface TicketAttributes {
    title: string
    price: number
-   // ticket: TicketDoc
+   id: string
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -38,7 +38,11 @@ const ticketSchema = new mongoose.Schema({
 )
 
 ticketSchema.statics.build = (attrs: TicketAttributes) =>{
-   return new Ticket(attrs)
+   return new Ticket({
+      _id: attrs.id,
+      title: attrs.title,
+      price: attrs.price
+   })
 }
 ticketSchema.methods.isReserved = async function(){
    const existingOrder = await Order.findOne({
