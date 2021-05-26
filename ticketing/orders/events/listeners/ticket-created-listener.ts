@@ -1,5 +1,6 @@
 import { Listener, Subjects, TicketCreatedEvent } from "@ticketservice/common";
 import { Message } from "node-nats-streaming";
+import { Ticket } from "../../src/models/ticket";
 import { queueGroupName } from "./queue-group-name";
 
 
@@ -7,7 +8,14 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent>{
    subject: Subjects.TicketCreated = Subjects.TicketCreated
    queueGroupName = queueGroupName
 
-   onMessage(data: TicketCreatedEvent['data'], msg: Message){
+   async onMessage(data: TicketCreatedEvent['data'], msg: Message){
+      const {title, price} = data
+      const ticket = Ticket.build({
+         title, price
+      })
 
+      await ticket.save()
+
+      msg.ack()
    }
 }
