@@ -36,5 +36,8 @@ it('creates and saves a ticket', async ()=>{
 })
 
 it('acks the message', async ()=>{
+   const {data, listener, msg} = await setup()
 
+   await listener.onMessage(data, msg)
+   expect(msg.ack).toHaveBeenCalled()
 })
