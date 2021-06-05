@@ -1,11 +1,10 @@
 import mongoose from 'mongoose'
 import { TicketUpdatedEvent } from "@ticketservice/common"
-import { natsWrapper } from "../../../__mocks__/nats-wrapper"
+import { natsWrapper } from "../../../nats-wrapper"
 import { TicketCreatedListener } from "../ticket-created-listener"
 import { Ticket } from '../../../src/models/ticket'
 
 const setup = async ()=>{
-   // @ts-ignore
    const listener = new TicketCreatedListener(natsWrapper.client)
    const data: TicketUpdatedEvent['data'] = {
       version: 0,
