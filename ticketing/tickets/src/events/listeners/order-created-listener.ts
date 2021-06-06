@@ -19,7 +19,14 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       }
 
       ticket.set({orderId: data.id})
-      new TicketUpdatedPublisher(natsWrapper.client)
+      await new TicketUpdatedPublisher(this.client).publish({
+         id: ticket.id,
+         version: ticket.version,
+         price: ticket.price,
+         title: ticket.title,
+         userId: ticket.userId,
+         orderId: ticket.orderId
+      })
 
       await ticket.save()
 
