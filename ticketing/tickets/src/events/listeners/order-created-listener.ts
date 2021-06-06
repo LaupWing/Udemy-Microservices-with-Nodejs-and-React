@@ -1,6 +1,8 @@
 import { Listener, OrderCreatedEvent, Subjects } from "@ticketservice/common";
 import { Message } from "node-nats-streaming";
 import { Ticket } from "../../models/ticket";
+import { natsWrapper } from "../../nats-wrapper";
+import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 import { queueGroupName } from "./queueGroupName";
 
 
@@ -17,6 +19,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       }
 
       ticket.set({orderId: data.id})
+      new TicketUpdatedPublisher(natsWrapper.client)
 
       await ticket.save()
 
