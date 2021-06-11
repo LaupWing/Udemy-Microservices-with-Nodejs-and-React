@@ -1,4 +1,4 @@
-import { requireAuth } from '@ticketservice/common'
+import { requireAuth, validateRequest } from '@ticketservice/common'
 import express, {Request, Response} from 'express'
 import { body } from 'express-validator'
 
@@ -14,6 +14,7 @@ router.post('/api/payments',
          .not()
          .isEmpty(),
    ],
+   validateRequest,
    async (req: Request, res: Response)=>{
       res.send({success: true})
    }
