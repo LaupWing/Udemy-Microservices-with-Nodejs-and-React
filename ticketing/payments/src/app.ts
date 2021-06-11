@@ -3,12 +3,12 @@ import {json} from 'body-parser'
 import 'express-async-errors'
 import cookieSession from 'cookie-session'
 
-
 import {
    NotFoundError, 
    errorHandler, 
    currentUser
 } from '@ticketservice/common'
+import { createChargeRouter } from './routes/new'
 
 const app = express()
 
@@ -21,6 +21,7 @@ app
    }))
    .use(errorHandler)
    .use(currentUser)
+   .use(createChargeRouter)
    .all('*', ()=>{
       throw new NotFoundError()
    })
