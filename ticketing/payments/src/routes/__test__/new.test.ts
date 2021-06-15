@@ -4,6 +4,8 @@ import request from 'supertest'
 import { app } from '../../app'
 import { Order } from '../../models/Order'
 
+jest.mock('../../stripe')
+
 it('returns a 404 when purchasing an order that not exists', async()=>{
    await request(app)
       .post('/api/payments')
@@ -54,4 +56,25 @@ it('returns a 400 when purchasing an cancelled order', async()=>{
          token: '23123'
       })
       .expect(400)
+})
+
+it('returns a 204 withb valid inputs', async ()=>{
+   const userId = mongoose.Types.ObjectId().toHexString()
+
+   const order = await Order.build({
+      id: mongoose.Types.ObjectId().toHexString(),
+      userId,
+      version: 0,
+      price: 20,
+      status: OrderStatus.Created
+   })
+   await order.save()
+
+   await request(app)
+      .post('/api/payments')
+      .set('Cookie', global.signin(userId))
+      .send({
+         token: 'tok_visa',
+         orderId: order.id
+      })
 })
