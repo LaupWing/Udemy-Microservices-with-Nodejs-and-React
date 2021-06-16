@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import request from 'supertest'
 import { app } from '../../app'
 import { Order } from '../../models/Order'
+import { Payment } from '../../models/Payment'
 import { stripe } from '../../stripe'
 
 
@@ -88,4 +89,11 @@ it('returns a 201 with valid inputs', async ()=>{
 
    expect(stripeCharge).toBeDefined()
    expect(stripeCharge!.currency).toEqual('usd')
+
+   const payment = await Payment.findOne({
+      orderId: order.id,
+      stripeId: stripeCharge!.id
+   })
+
+   expect(payment).not.toBeNull()
 })
