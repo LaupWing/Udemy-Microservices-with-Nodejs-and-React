@@ -58,9 +58,9 @@ it('returns a 400 when purchasing an cancelled order', async()=>{
       .expect(400)
 })
 
-it('returns a 204 withb valid inputs', async ()=>{
+it('returns a 201 with valid inputs', async ()=>{
    const userId = mongoose.Types.ObjectId().toHexString()
-
+   const price = Math.floor(Math.random() * 100000)
    const order = await Order.build({
       id: mongoose.Types.ObjectId().toHexString(),
       userId,
@@ -78,4 +78,14 @@ it('returns a 204 withb valid inputs', async ()=>{
          orderId: order.id
       })
       .expect(201)
+
+   const stripeCharges = await stripe.charges.list({
+      limit: 50
+   })
+   const stripeCharge = await stripeCharges.data.find(charge =>{
+      return charge.amount === price * 100
+   })
+
+   expect(stripeCharge).toBeDefined()
+   expect(stripeCharge!.currency).toEqual('usd')
 })
