@@ -43,7 +43,7 @@ const AppHeader = ({currentUser})=>{
          </Link>
          <div className="d-flex justify-content-end">
             <ul className="nav d-flex align-items-center">
-               {link}
+               {links}
             </ul>
          </div>
       </nav>
